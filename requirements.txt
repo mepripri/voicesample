@@ -1,6 +1,8 @@
 Cython==0.29.21
 lxml==4.5.2
-port audio
+python-pyaudio 
+python3-pyaudio 
+portaudio19-dev
 Flask==1.1.1
 PyAudio==0.2.11
 numpy==1.18.5
