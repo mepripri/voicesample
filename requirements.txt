@@ -1,0 +1,12 @@
+Cython==0.29.21
+lxml==4.5.2
+Flask==1.1.1
+PyAudio==0.2.11
+numpy==1.18.5
+cryptography==3.4.6
+ipaddr==2.2.0
+ordereddict==1.1
+protobuf==3.14.0
+pyOpenSSL==20.0.1
+wincertstore==0.2
+gunicorn

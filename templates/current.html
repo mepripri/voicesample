@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Home Page</title>
+</head>
+<body style="background-color: #E7BDB3;">
+	<div style="background-color: #3B3638;"> 
+		<div class="d-flex justify-content-center p-4">
+			<h2 style="color: #F9F7F7;">. . .Voice Sample Collection. . .</h2>
+		</div>
+	</div>
+	<div class="container jumbotron mt-5" style="background-color: #C9A4A0;">
+		<div class="row justify-content-center">
+			<form class="form" method="POST" action="/">
+				<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="submit" class="ml-5 btn" style="background-color: #3B3638;color: #F9F7F7;">Start Recording</button>
+			</form>
+			<form class="form" method="POST" action="/move">
+					<button type="submit" class="btn" style="background-color: #3B3638;color: #F9F7F7;">View Recordings</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="container jumbotron mt-2" style="background-color: #F2DCD3;">
+		<div class="row">
+			<div class="col-2">
+				<p style="color: #3B3638;font-weight: bold;">{{file}}</p>
+			</div>
+			<div class="col-6">
+				<audio controls>
+					<source src="{{ url_for('static', filename=file)}}" type="audio/wav">  
+				</audio>
+			</div>
+		</div>
+	</div>
+  </body>
+</html>
