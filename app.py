@@ -1,7 +1,7 @@
 from flask import Flask,render_template,url_for,redirect,Response,request
+import pyaudio
+import wave
 import os
-import sounddevice as sd
-from scipy.io.wavfile import write
 
 app = Flask(__name__)
 
@@ -12,13 +12,47 @@ def home():
 @app.route("/playcurrent",methods=['GET','POST'])
 def playcurrent(RECORD_SECONDS=16): 
 	x=request.form["name"]
+	fname=""
+	f1=""
+	CHUNK=1024
+	FORMAT=pyaudio.paInt16
+	CHANNELS=1
+	RATE=44100
 	i=1
-	f1=x+str(i)+".wav"
-	fs = 44100
-	seconds = 15
-	myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
-	sd.wait()  # Wait until recording is finished
-	write("static/"+x+str(i)+".wav", fs, myrecording)
+	while(True):
+		fname="static/"+x+str(i)+".wav"
+		f1=x+str(i)+".wav"
+		if os.path.isfile(fname):
+			i+=1
+		else:
+			break
+	fname="static/"+x+str(i)+".wav"
+	INPUT_DEVICE_INDEX=0
+
+	p=pyaudio.PyAudio()
+
+	stream=p.open(format=FORMAT,channels=CHANNELS,rate=RATE,input=True,frames_per_buffer=CHUNK,input_device_index=INPUT_DEVICE_INDEX)
+
+	print("* recording")
+
+	frames=[]
+
+	for i in range(0, int(RATE/CHUNK*int(RECORD_SECONDS))):
+	    data=stream.read(CHUNK)
+	    frames.append(data)
+
+	print("* done recording")
+
+	stream.stop_stream()
+	stream.close()
+	p.terminate()
+
+	wf=wave.open(fname, 'wb')
+	wf.setnchannels(CHANNELS)
+	wf.setsampwidth(p.get_sample_size(FORMAT))
+	wf.setframerate(RATE)
+	wf.writeframes(b''.join(frames))
+	wf.close()
 	i+=1
 	return render_template('current.html',file=f1)
 
